@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         pathname: '/wp-content/uploads/**',
       },
       {
+        protocol: 'http',
+        hostname: 'morfikirler.com',
+        pathname: '/wp-content/uploads/**',
+      },
+      {
         protocol: 'https',
         hostname: '*.gravatar.com',
       },

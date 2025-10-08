@@ -61,17 +61,10 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <Link 
-              href="/" 
-              className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
-            >
-              Anasayfa
-            </Link>
-            
-            {categories.slice(0, 5).map((category) => (
+            {categories.slice(0, 6).map((category) => (
               <Link
                 key={category.id}
-                href={`/kategori/${category.slug}`}
+                href={`/${category.slug}`}
                 className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
               >
                 {category.name}
@@ -189,18 +182,10 @@ export default function Header() {
 
             {/* Mobile Navigation Links */}
             <nav className="flex flex-col space-y-2">
-              <Link
-                href="/"
-                className="text-gray-700 hover:text-purple-600 font-medium py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Anasayfa
-              </Link>
-              
               {categories.map((category) => (
                 <Link
                   key={category.id}
-                  href={`/kategori/${category.slug}`}
+                  href={`/${category.slug}`}
                   className="text-gray-700 hover:text-purple-600 font-medium py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
