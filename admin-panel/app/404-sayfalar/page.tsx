@@ -33,13 +33,21 @@ export default function NotFoundLogsPage() {
         : `/api/404-logs?status=${statusFilter}`;
       
       const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
       const data = await response.json();
 
       if (data.success) {
         setLogs(data.data);
+      } else {
+        console.error('API error:', data.message);
       }
     } catch (error) {
       console.error('Error fetching 404 logs:', error);
+      setLogs([]); // Hata durumunda boş liste göster
     } finally {
       setLoading(false);
     }
