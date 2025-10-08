@@ -44,3 +44,4 @@ export default function NovelEditor({ content, onChange, placeholder, className 
   );
 }
 
+

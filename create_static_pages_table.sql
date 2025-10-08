@@ -29,3 +29,4 @@ INSERT INTO static_pages (title, slug, content, meta_title, meta_description, fo
 ('İletişim', 'iletisim', '<h2>İletişim</h2><p>Bizimle iletişime geçin.</p>', 'İletişim', 'Mor Fikirler iletişim bilgileri.', 4, 4)
 ON CONFLICT (slug) DO NOTHING;
 
+

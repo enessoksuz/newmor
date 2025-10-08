@@ -30,30 +30,11 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const [articlesRes, categoriesRes, authorsRes] = await Promise.all([
-        fetch('/api/articles'),
-        fetch('/api/categories'),
-        fetch('/api/authors'),
-      ]);
+      const statsRes = await fetch('/api/stats');
+      const statsData = await statsRes.json();
 
-      const articlesData = await articlesRes.json();
-      const categoriesData = await categoriesRes.json();
-      const authorsData = await authorsRes.json();
-
-      if (articlesData.success) {
-        const articles = articlesData.data || [];
-        const published = articles.filter((a: any) => a.status === 'published').length;
-        const draft = articles.filter((a: any) => a.status === 'draft').length;
-        const views = articles.reduce((sum: number, a: any) => sum + (parseInt(a.view_count) || 0), 0);
-
-        setStats({
-          totalArticles: articlesData.pagination?.total || articles.length,
-          publishedArticles: published,
-          draftArticles: draft,
-          totalCategories: categoriesData.data?.length || 0,
-          totalAuthors: authorsData.data?.length || 0,
-          totalViews: views,
-        });
+      if (statsData.success) {
+        setStats(statsData.data);
       }
     } catch (error) {
       console.error('Stats fetch error:', error);

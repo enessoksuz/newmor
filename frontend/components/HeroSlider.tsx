@@ -108,3 +108,4 @@ export default function HeroSlider({ articles }: { articles: Article[] }) {
   );
 }
 
+
