@@ -217,7 +217,7 @@ export default function ArticleEditPage() {
                       required
                       value={form.title}
                       onChange={(e) => handleNameChange(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="Makale başlığını girin..."
                     />
                   </div>
@@ -231,7 +231,7 @@ export default function ArticleEditPage() {
                       required
                       value={form.slug}
                       onChange={(e) => setForm({ ...form, slug: generateSlug(e.target.value) })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     />
                   </div>
 
@@ -243,7 +243,7 @@ export default function ArticleEditPage() {
                       value={form.summary}
                       onChange={(e) => setForm({ ...form, summary: e.target.value })}
                       rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="Makale özeti..."
                     />
                   </div>
@@ -269,7 +269,7 @@ export default function ArticleEditPage() {
                       type="url"
                       value={form.featured_image}
                       onChange={(e) => setForm({ ...form, featured_image: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                       placeholder="https://example.com/image.jpg"
                     />
                   </div>
@@ -291,7 +291,7 @@ export default function ArticleEditPage() {
                     <select
                       value={form.status}
                       onChange={(e) => setForm({ ...form, status: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     >
                       <option value="draft">Taslak</option>
                       <option value="published">Yayında</option>
@@ -374,7 +374,7 @@ export default function ArticleEditPage() {
                   <select
                     value={form.primary_category_id}
                     onChange={(e) => setForm({ ...form, primary_category_id: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                   >
                     <option value="">Ana kategori seçin</option>
                     {categories
@@ -402,7 +402,7 @@ export default function ArticleEditPage() {
                       value={form.meta_title}
                       onChange={(e) => setForm({ ...form, meta_title: e.target.value })}
                       placeholder={form.title || 'SEO başlığı...'}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     />
                   </div>
 
@@ -415,7 +415,7 @@ export default function ArticleEditPage() {
                       onChange={(e) => setForm({ ...form, meta_description: e.target.value })}
                       rows={3}
                       placeholder={form.summary || 'SEO açıklaması...'}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     />
                   </div>
 
@@ -428,7 +428,7 @@ export default function ArticleEditPage() {
                       value={form.meta_keywords}
                       onChange={(e) => setForm({ ...form, meta_keywords: e.target.value })}
                       placeholder="anahtar, kelimeler, virgülle, ayrılmış"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                 </div>

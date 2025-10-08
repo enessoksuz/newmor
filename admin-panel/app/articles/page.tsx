@@ -422,7 +422,7 @@ export default function ArticlesPage() {
           </div>
         ) : (
           <>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="bg-white rounded-lg shadow overflow-hidden overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -436,10 +436,10 @@ export default function ArticlesPage() {
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Başlık</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Durum</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Yazar</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tarih</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Görüntülenme</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">İşlemler</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Yazar</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tarih</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Görüntülenme</th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">İşlemler</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -454,10 +454,10 @@ export default function ArticlesPage() {
                         />
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm font-medium text-gray-900 truncate max-w-md">
+                        <div className="text-sm font-medium text-gray-900 truncate max-w-xs">
                           {article.title}
                         </div>
-                        <div className="text-sm text-gray-500">/{article.slug}</div>
+                        <div className="text-sm text-gray-500 truncate max-w-xs">/{article.slug}</div>
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
@@ -468,7 +468,7 @@ export default function ArticlesPage() {
                           {article.status === 'published' ? 'Yayında' : 'Taslak'}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-4">
                         {article.authors?.[0] ? (
                           <div className="flex items-center">
                             {article.authors[0].avatar_url ? (
@@ -482,25 +482,25 @@ export default function ArticlesPage() {
                                 {article.authors[0].name.charAt(0)}
                               </div>
                             )}
-                            <span className="text-sm text-gray-600">{article.authors[0].name}</span>
+                            <span className="text-sm text-gray-600 whitespace-nowrap">{article.authors[0].name}</span>
                           </div>
                         ) : (
                           <span className="text-sm text-gray-600">-</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-4 py-4 text-sm text-gray-600 whitespace-nowrap">
                         {article.published_at 
                           ? format(new Date(article.published_at), 'dd MMM yyyy', { locale: tr }) 
                           : '-'
                         }
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-4 py-4 text-sm text-gray-600 whitespace-nowrap">
                         <div className="flex items-center">
                           <Eye className="w-4 h-4 mr-1" />
                           {article.view_count || 0}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right text-sm font-medium">
+                      <td className="px-4 py-4 text-right text-sm font-medium whitespace-nowrap">
                         <div className="flex items-center justify-end space-x-2">
                           <Link 
                             href={`/articles/${article.id}`} 

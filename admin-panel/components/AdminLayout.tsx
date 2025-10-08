@@ -14,7 +14,8 @@ import {
   X,
   Settings,
   FileStack,
-  AlertCircle
+  AlertCircle,
+  ImageOff
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -28,6 +29,7 @@ const navigation = [
   { name: 'Yazarlar', href: '/authors', icon: Users },
   { name: 'Sabit Sayfalar', href: '/static-pages', icon: FileStack },
   { name: '404 Sayfalar', href: '/404-sayfalar', icon: AlertCircle },
+  { name: 'Eksik Resimler', href: '/eksik-resimler', icon: ImageOff },
   { name: 'Medya', href: '/media', icon: ImageIcon },
 ];
 
