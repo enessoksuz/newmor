@@ -30,6 +30,24 @@ export default function NotFound() {
   const [searchResults, setSearchResults] = useState<SearchArticle[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
+  // 404 logla
+  useEffect(() => {
+    const logUrl = async () => {
+      try {
+        const currentUrl = window.location.pathname;
+        await fetch('/api/log-404', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: currentUrl }),
+        });
+      } catch (error) {
+        console.error('404 loglama hatası:', error);
+      }
+    };
+
+    logUrl();
+  }, []);
+
   // Arama yap
   useEffect(() => {
     if (searchQuery.trim().length < 2) {
