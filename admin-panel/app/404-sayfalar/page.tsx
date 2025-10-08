@@ -285,7 +285,7 @@ export default function NotFoundLogsPage() {
                                 value={redirectUrl}
                                 onChange={(e) => setRedirectUrl(e.target.value)}
                                 placeholder="/yeni-url"
-                                className="px-3 py-1 border border-gray-300 rounded text-sm"
+                                className="px-3 py-1 border border-gray-300 rounded text-sm text-gray-900"
                                 autoFocus
                               />
                               <button
