@@ -58,6 +58,15 @@ interface Category {
   parent_id: string | null;
 }
 
+interface StaticPage {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  meta_title: string;
+  meta_description: string;
+}
+
 interface CategoryArticle {
   id: string;
   title: string;
@@ -163,6 +172,19 @@ async function getURLMapping(slug: string): Promise<{type: string; reference_id:
   try {
     const result = await query(
       'SELECT type, reference_id FROM url_mappings WHERE slug = $1',
+      [slug]
+    );
+    return result.rowCount > 0 ? result.rows[0] : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+// Sabit sayfa fonksiyonları
+async function getStaticPage(slug: string): Promise<StaticPage | null> {
+  try {
+    const result = await query(
+      'SELECT * FROM static_pages WHERE slug = $1 AND is_active = true',
       [slug]
     );
     return result.rowCount > 0 ? result.rows[0] : null;
@@ -294,6 +316,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
   
+  // Eğer sabit sayfa ise
+  if (mapping.type === 'page') {
+    const page = await getStaticPage(slug);
+    if (page) {
+      return {
+        title: page.meta_title || page.title,
+        description: page.meta_description || page.title,
+      };
+    }
+  }
+  
   // Eğer kategori ise
   if (mapping.type === 'category') {
     const category = await getCategory(slug);
@@ -407,6 +440,35 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   
   if (!mapping) {
     notFound();
+  }
+  
+  // Eğer sabit sayfa ise
+  if (mapping.type === 'page') {
+    const page = await getStaticPage(slug);
+    if (!page) {
+      notFound();
+    }
+    
+    return (
+      <div className="min-h-screen bg-white">
+        {/* Sayfa İçeriği - Makale Tasarımı Gibi */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+          <div className="max-w-[680px] mx-auto">
+            {/* Başlık */}
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6" style={{ fontFamily: 'var(--font-lora)' }}>
+              {decodeHtmlEntities(page.title)}
+            </h1>
+            
+            {/* İçerik */}
+            <div 
+              className="article-content prose max-w-none"
+              style={{ fontFamily: 'var(--font-nunito)' }}
+              dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(page.content) }}
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
   
   // Eğer kategori ise

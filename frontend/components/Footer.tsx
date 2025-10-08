@@ -1,7 +1,37 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { query } from '@/lib/db';
 
-export default function Footer() {
+interface StaticPage {
+  id: string;
+  title: string;
+  slug: string;
+  footer_column: number;
+  display_order: number;
+}
+
+async function getFooterPages() {
+  try {
+    const result = await query(
+      `SELECT id, title, slug, footer_column, display_order 
+       FROM static_pages 
+       WHERE footer_column IS NOT NULL AND is_active = true 
+       ORDER BY footer_column, display_order, title`,
+      []
+    );
+    return result.rows as StaticPage[];
+  } catch (error) {
+    console.error('Error fetching footer pages:', error);
+    return [];
+  }
+}
+
+export default async function Footer() {
+  const footerPages = await getFooterPages();
+  
+  const column2Pages = footerPages.filter(p => p.footer_column === 2);
+  const column3Pages = footerPages.filter(p => p.footer_column === 3);
+  const column4Pages = footerPages.filter(p => p.footer_column === 4);
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -122,21 +152,13 @@ export default function Footer() {
               Kurumsal
             </h3>
             <ul className="space-y-2" style={{ fontFamily: 'var(--font-nunito)' }}>
-              <li>
-                <Link href="/hakkimizda" className="hover:text-white transition-colors">
-                  Hakkımızda
-                </Link>
-              </li>
-              <li>
-                <Link href="/gizlilik-politikasi" className="hover:text-white transition-colors">
-                  Gizlilik Politikası
-                </Link>
-              </li>
-              <li>
-                <Link href="/editorluk-yonergeleri" className="hover:text-white transition-colors">
-                  Editörlük Yönergeleri
-                </Link>
-              </li>
+              {column3Pages.map((page) => (
+                <li key={page.id}>
+                  <Link href={`/${page.slug}`} className="hover:text-white transition-colors">
+                    {page.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -146,26 +168,13 @@ export default function Footer() {
               Diğer
             </h3>
             <ul className="space-y-2" style={{ fontFamily: 'var(--font-nunito)' }}>
-              <li>
-                <Link href="/hizmet-sartlari" className="hover:text-white transition-colors">
-                  Hizmet Şartları
-                </Link>
-              </li>
-              <li>
-                <Link href="/reklam-verin" className="hover:text-white transition-colors">
-                  Reklam Verin
-                </Link>
-              </li>
-              <li>
-                <Link href="/kariyer" className="hover:text-white transition-colors">
-                  Kariyer
-                </Link>
-              </li>
-              <li>
-                <Link href="/iletisim" className="hover:text-white transition-colors">
-                  İletişim
-                </Link>
-              </li>
+              {column4Pages.map((page) => (
+                <li key={page.id}>
+                  <Link href={`/${page.slug}`} className="hover:text-white transition-colors">
+                    {page.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
