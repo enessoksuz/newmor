@@ -229,6 +229,33 @@ async function getSiblingCategories(categoryId: string, parentId: string | null)
   }
 }
 
+async function getChildCategories(parentId: string): Promise<Category[]> {
+  try {
+    const result = await query(
+      `SELECT id, name, slug, description, meta_description
+       FROM categories
+       WHERE parent_id = $1 AND is_active = true
+       ORDER BY display_order, name`,
+      [parentId]
+    );
+    return result.rows;
+  } catch (error) {
+    return [];
+  }
+}
+
+async function hasChildCategories(categoryId: string): Promise<boolean> {
+  try {
+    const result = await query(
+      'SELECT COUNT(*) as count FROM categories WHERE parent_id = $1 AND is_active = true',
+      [categoryId]
+    );
+    return result.rows[0]?.count > 0;
+  } catch (error) {
+    return false;
+  }
+}
+
 async function getBreadcrumbs(category: Category): Promise<Array<{ name: string; slug: string }>> {
   const breadcrumbs: Array<{ name: string; slug: string }> = [];
   
@@ -388,7 +415,181 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     if (!category) {
       notFound();
     }
-    // Kategori sayfası render et
+    
+    // Alt kategorisi var mı kontrol et
+    const isParentCategory = await hasChildCategories(category.id);
+    
+    if (isParentCategory) {
+      // ÜST KATEGORİ SAYFASI - Alt kategorileri olan kategori
+      const [heroArticles, childCategories, siblings, breadcrumbs] = await Promise.all([
+        getCategoryArticles(category.id, 5),
+        getChildCategories(category.id),
+        getSiblingCategories(category.id, category.parent_id),
+        getBreadcrumbs(category)
+      ]);
+      
+      // Her alt kategori için 4 makale al
+      const childCategoriesWithArticles = await Promise.all(
+        childCategories.map(async (child) => ({
+          ...child,
+          articles: await getCategoryArticles(child.id, 4)
+        }))
+      );
+      
+      return (
+        <div className="min-h-screen bg-gray-50">
+          {/* Breadcrumb */}
+          <div className="bg-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+              <nav className="flex items-center space-x-2 text-sm" style={{ fontFamily: 'var(--font-nunito)' }}>
+                {breadcrumbs.map((crumb, index) => (
+                  <div key={crumb.slug} className="flex items-center space-x-2">
+                    {index > 0 && <span className="text-gray-400">›</span>}
+                    {index === breadcrumbs.length - 1 ? (
+                      <span className="text-purple-600 font-medium">{crumb.name}</span>
+                    ) : (
+                      <Link 
+                        href={`/${crumb.slug}`}
+                        className="text-gray-600 hover:text-purple-600 transition-colors"
+                      >
+                        {crumb.name}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </nav>
+            </div>
+          </div>
+
+          {/* Header */}
+          <div className="bg-white border-b border-gray-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-lora)' }}>
+                {category.name}
+              </h1>
+              
+              {category.meta_description && (
+                <p className="text-xl text-gray-600 max-w-3xl">
+                  {category.meta_description}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Sibling Categories */}
+          {siblings.length > 0 && (
+            <div className="bg-white border-b border-gray-200">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div className="flex flex-wrap gap-3">
+                  {siblings.map((sibling) => (
+                    <Link
+                      key={sibling.id}
+                      href={`/${sibling.slug}`}
+                      className="px-4 py-2 bg-gray-100 hover:bg-purple-100 text-gray-700 hover:text-purple-700 rounded-full transition-colors text-sm font-medium"
+                      style={{ fontFamily: 'var(--font-nunito)' }}
+                    >
+                      {sibling.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Hero Slider */}
+          {heroArticles.length > 0 && (
+            <HeroSlider articles={heroArticles} />
+          )}
+
+          {/* Child Categories Sections */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+            {childCategoriesWithArticles.map((child) => (
+              <div key={child.id} className="space-y-6">
+                {/* Category Header */}
+                <div className="flex items-center justify-between">
+                  <h2 className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-lora)' }}>
+                    {child.name}
+                  </h2>
+                  <Link
+                    href={`/${child.slug}`}
+                    className="text-purple-600 hover:text-purple-700 font-medium transition-colors flex items-center gap-2"
+                    style={{ fontFamily: 'var(--font-nunito)' }}
+                  >
+                    Tümünü Gör
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
+
+                {/* Articles Grid - 4 columns */}
+                {child.articles.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {child.articles.map((article) => (
+                      <Link
+                        key={article.id}
+                        href={`/${article.slug}`}
+                        className="group"
+                      >
+                        <article className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+                          {article.featured_image && (
+                            <div className="relative w-full aspect-video bg-gray-200">
+                              <Image
+                                src={article.featured_image}
+                                alt={article.title}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          )}
+                          <div className="p-5 flex-1 flex flex-col">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors" style={{ fontFamily: 'var(--font-lora)' }}>
+                              {decodeHtmlEntities(article.title)}
+                            </h3>
+                            {article.summary && (
+                              <p className="text-sm text-gray-600 line-clamp-3 mb-auto" style={{ fontFamily: 'var(--font-nunito)' }}>
+                                {decodeHtmlEntities(article.summary)}
+                              </p>
+                            )}
+                            <div className="flex items-center justify-between text-xs text-gray-500 mt-4 pt-4 border-t border-gray-100">
+                              {article.authors?.[0] && (
+                                <span>{article.authors[0].name}</span>
+                              )}
+                              <span>
+                                {format(new Date(article.published_at), 'd MMM yyyy', { locale: tr })}
+                              </span>
+                            </div>
+                          </div>
+                        </article>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-center py-8">Bu kategoride henüz içerik bulunmuyor.</p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Category Description */}
+          {category.description && (
+            <div className="bg-white border-t border-gray-200">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="max-w-[680px] mx-auto">
+                  <div 
+                    className="prose prose-lg max-w-none"
+                    style={{ fontFamily: 'var(--font-nunito)' }}
+                    dangerouslySetInnerHTML={{ __html: category.description }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ALT KATEGORİ SAYFASI - Alt kategorisi olmayan kategori
     const [heroArticles, allArticles, siblings, breadcrumbs] = await Promise.all([
       getCategoryArticles(category.id, 5),
       getCategoryArticles(category.id, 14),
