@@ -139,21 +139,21 @@ export default function SimpleEditor({
         <div className="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
           <button
             onClick={() => execCommand('bold')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Kalın"
           >
             <Bold size={16} />
           </button>
           <button
             onClick={() => execCommand('italic')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="İtalik"
           >
             <Italic size={16} />
           </button>
           <button
             onClick={() => execCommand('underline')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Altı Çizili"
           >
             <Underline size={16} />
@@ -164,14 +164,14 @@ export default function SimpleEditor({
         <div className="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
           <button
             onClick={() => execCommand('insertUnorderedList')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Madde İşareti"
           >
             <List size={16} />
           </button>
           <button
             onClick={() => execCommand('insertOrderedList')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Numaralı Liste"
           >
             <ListOrdered size={16} />
@@ -182,28 +182,28 @@ export default function SimpleEditor({
         <div className="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
           <button
             onClick={() => execCommand('justifyLeft')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Sola Hizala"
           >
             <AlignLeft size={16} />
           </button>
           <button
             onClick={() => execCommand('justifyCenter')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Ortala"
           >
             <AlignCenter size={16} />
           </button>
           <button
             onClick={() => execCommand('justifyRight')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Sağa Hizala"
           >
             <AlignRight size={16} />
           </button>
           <button
             onClick={() => execCommand('justifyFull')}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="İki Yana Hizala"
           >
             <AlignJustify size={16} />
@@ -214,14 +214,14 @@ export default function SimpleEditor({
         <div className="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
           <button
             onClick={insertLink}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Link Ekle"
           >
             <Link size={16} />
           </button>
           <button
             onClick={insertImage}
-            className="p-2 hover:bg-gray-200 rounded transition-colors"
+            className="p-2 hover:bg-gray-200 rounded transition-colors text-gray-700"
             title="Resim Ekle"
           >
             <Image size={16} />
@@ -232,7 +232,7 @@ export default function SimpleEditor({
         <div className="flex items-center gap-1 border-r border-gray-300 pr-2 mr-2">
           <select
             onChange={(e) => execCommand('fontSize', e.target.value)}
-            className="px-2 py-1 border border-gray-300 rounded text-sm"
+            className="px-2 py-1 border border-gray-300 rounded text-sm text-gray-700"
             title="Font Boyutu"
           >
             <option value="">Boyut</option>
@@ -253,7 +253,7 @@ export default function SimpleEditor({
             className={`px-3 py-1 rounded text-sm transition-colors ${
               isPreview 
                 ? 'bg-blue-500 text-white' 
-                : 'bg-gray-200 hover:bg-gray-300'
+                : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
             }`}
             title="Önizleme"
           >
@@ -283,7 +283,7 @@ export default function SimpleEditor({
                 e.preventDefault();
               }
             }}
-            className="p-4 overflow-auto h-full focus:outline-none simple-editor-content"
+            className="p-4 overflow-auto h-full focus:outline-none simple-editor-content text-gray-900"
             style={{ 
               minHeight: `${height - 8}px`,
               lineHeight: '1.5',

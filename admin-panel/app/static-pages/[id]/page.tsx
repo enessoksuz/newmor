@@ -155,7 +155,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
               type="text"
               value={page.title}
               onChange={(e) => handleTitleChange(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-900"
               placeholder="Sayfa başlığını girin"
               required
             />
@@ -170,7 +170,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
               type="text"
               value={page.slug}
               onChange={(e) => setPage({ ...page, slug: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm placeholder-gray-500 text-gray-900"
               placeholder="sayfa-url-adresi"
               required
             />
@@ -201,7 +201,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
                 type="text"
                 value={page.meta_title}
                 onChange={(e) => setPage({ ...page, meta_title: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-900"
                 placeholder="SEO başlığı"
               />
             </div>
@@ -215,7 +215,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
                 value={page.meta_description}
                 onChange={(e) => setPage({ ...page, meta_description: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-900"
                 placeholder="SEO açıklaması"
               />
             </div>
@@ -234,7 +234,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
                   ...page, 
                   footer_column: e.target.value ? parseInt(e.target.value) : null 
                 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
               >
                 <option value="">Gösterme</option>
                 <option value="2">Sütun 2</option>
@@ -255,7 +255,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
                 type="number"
                 value={page.display_order}
                 onChange={(e) => setPage({ ...page, display_order: parseInt(e.target.value) || 0 })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-900"
                 min="0"
                 placeholder="0"
               />
