@@ -155,7 +155,7 @@ async function getRecommendedArticles(currentArticleId: string, categoryIds: str
           WHERE ac2.article_id = a.id AND ac2.category_id = ANY($2)
         )
       GROUP BY a.id
-      ORDER BY a.published_at DESC
+      ORDER BY a.updated_at DESC
       LIMIT 16
     `;
 
@@ -221,7 +221,7 @@ async function getCategoryArticles(categoryId: string, limit?: number): Promise<
       INNER JOIN article_categories ac ON a.id = ac.article_id
       WHERE ac.category_id = $1 AND a.status = 'published'
       GROUP BY a.id
-      ORDER BY a.published_at DESC
+      ORDER BY a.updated_at DESC
       ${limit ? `LIMIT ${limit}` : ''}
     `;
 

@@ -91,7 +91,7 @@ async function getHeroArticle(): Promise<Article | null> {
       LEFT JOIN categories c ON ac.category_id = c.id
       WHERE a.status = 'published'
       GROUP BY a.id
-      ORDER BY a.published_at DESC
+      ORDER BY a.updated_at DESC
       LIMIT 1
     `;
 
@@ -144,7 +144,7 @@ async function getCategoryArticles(categoryId: string): Promise<Article[]> {
       INNER JOIN article_categories ac2 ON a.id = ac2.article_id
       WHERE a.status = 'published' AND ac2.category_id = $1
       GROUP BY a.id
-      ORDER BY a.published_at DESC
+      ORDER BY a.updated_at DESC
       LIMIT 4
     `;
 
