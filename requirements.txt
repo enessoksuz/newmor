@@ -1,0 +1,11 @@
+# Python Dependencies for YeniMorFikir Migration
+
+# PostgreSQL adapter
+psycopg2-binary>=2.9.9
+
+# HTTP requests
+requests>=2.31.0
+
+# Optional: For better terminal output
+colorama>=0.4.6
+
