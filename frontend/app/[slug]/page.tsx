@@ -435,6 +435,42 @@ function decodeHtmlEntities(text: string): string {
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
+  // 404/410 kontrolü yap
+  const notFoundCheck = await query(
+    'SELECT status, redirect_to FROM not_found_logs WHERE url = $1',
+    [`/${slug}`]
+  );
+
+  if (notFoundCheck.rowCount > 0) {
+    const logEntry = notFoundCheck.rows[0];
+    
+    // 410 Gone durumu
+    if (logEntry.status === 'gone_410') {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+          <div className="max-w-2xl w-full text-center">
+            <h1 className="text-6xl font-bold text-gray-900 mb-4">410</h1>
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Sayfa Kalıcı Olarak Kaldırıldı</h2>
+            <p className="text-gray-600 mb-8">
+              Bu sayfa artık mevcut değil ve geri gelmeyecek.
+            </p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              Ana Sayfaya Dön
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    
+    // Yönlendirme
+    if (logEntry.status === 'redirected' && logEntry.redirect_to) {
+      redirect(logEntry.redirect_to);
+    }
+  }
+  
   // URL mapping'den tip kontrolü yap
   const mapping = await getURLMapping(slug);
   
