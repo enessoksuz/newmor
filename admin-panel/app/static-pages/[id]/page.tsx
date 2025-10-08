@@ -185,7 +185,7 @@ export default function StaticPageEditPage({ params }: { params: Promise<{ id: s
               İçerik
             </label>
             <SimpleEditor
-              value={page.content}
+              content={page.content}
               onChange={(value) => setPage({ ...page, content: value })}
             />
           </div>
