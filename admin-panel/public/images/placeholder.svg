@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#f0f0f0"/>
+  <g opacity="0.5">
+    <circle cx="400" cy="280" r="80" fill="#d0d0d0"/>
+    <path d="M 320 320 L 340 380 L 460 380 L 480 320 Z" fill="#d0d0d0"/>
+    <path d="M 200 400 L 250 320 L 350 380 L 450 300 L 550 360 L 600 400 Z" fill="#c0c0c0"/>
+  </g>
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="24" fill="#999" text-anchor="middle">
+    Görsel Yükleniyor...
+  </text>
+</svg>
+

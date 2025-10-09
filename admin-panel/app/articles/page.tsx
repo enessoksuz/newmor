@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, Eye, Search, ChevronLeft, ChevronRight, Filter, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Search, ChevronLeft, ChevronRight, Filter, X, ExternalLink } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
@@ -223,7 +223,7 @@ export default function ArticlesPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Makale başlığı, içerik veya yazar ara..."
+                placeholder="Makale başlığı veya özet ara..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -422,8 +422,9 @@ export default function ArticlesPage() {
           </div>
         ) : (
           <>
-            <div className="bg-white rounded-lg shadow overflow-hidden overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-3 py-3 text-left">
@@ -502,6 +503,18 @@ export default function ArticlesPage() {
                       </td>
                       <td className="px-4 py-4 text-right text-sm font-medium whitespace-nowrap">
                         <div className="flex items-center justify-end space-x-2">
+                          {article.status === 'published' && (
+                            <a 
+                              href={`http://localhost:3002/${article.slug}`} 
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center px-3 py-1.5 text-sm bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors"
+                              title="Siteyi Gör"
+                            >
+                              <ExternalLink className="w-4 h-4 mr-1.5" />
+                              Siteyi Gör
+                            </a>
+                          )}
                           <Link 
                             href={`/articles/${article.id}`} 
                             className="inline-flex items-center px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors"
@@ -522,6 +535,7 @@ export default function ArticlesPage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
 
             {/* Sayfalama */}

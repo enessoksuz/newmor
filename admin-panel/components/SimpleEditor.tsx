@@ -128,7 +128,11 @@ export default function SimpleEditor({
   };
 
   const togglePreview = () => {
+    console.log('🎯 SimpleEditor Preview button clicked!');
+    console.log('🎯 Current isPreview:', isPreview);
+    console.log('🎯 Content:', content);
     setIsPreview(!isPreview);
+    console.log('🎯 New isPreview will be:', !isPreview);
   };
 
   return (
@@ -267,9 +271,18 @@ export default function SimpleEditor({
       <div style={{ height: `${height}px` }}>
         {isPreview ? (
           <div 
-            className="p-4 overflow-auto h-full bg-gray-50"
-            dangerouslySetInnerHTML={{ __html: content || '<p>Önizleme içeriği...</p>' }}
-          />
+            className="p-8 overflow-auto h-full bg-white"
+            style={{ 
+              fontFamily: 'var(--font-nunito), system-ui, -apple-system, sans-serif',
+              lineHeight: '1.75',
+              fontSize: '16px'
+            }}
+          >
+            <div 
+              className="article-content prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: content || '<p>Önizleme içeriği...</p>' }}
+            />
+          </div>
         ) : (
           <div
             ref={editorRef}

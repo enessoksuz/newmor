@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import Link from 'next/link';
-import { Edit, ChevronLeft, ChevronRight, ImageOff, AlertTriangle } from 'lucide-react';
+import { Edit, ChevronLeft, ChevronRight, ImageOff, AlertTriangle, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 
@@ -103,7 +103,8 @@ export default function EksikResimlerPage() {
         ) : (
           <>
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
+              <div className="overflow-x-auto">
+                <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Başlık</th>
@@ -167,19 +168,34 @@ export default function EksikResimlerPage() {
                           }
                         </td>
                         <td className="px-6 py-4 text-right text-sm font-medium">
-                          <Link 
-                            href={`/articles/${article.id}`} 
-                            className="inline-flex items-center px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors"
-                          >
-                            <Edit className="w-4 h-4 mr-1.5" />
-                            Düzenle
-                          </Link>
+                          <div className="flex items-center justify-end space-x-2">
+                            {article.status === 'published' && (
+                              <a 
+                                href={`http://localhost:3002/${article.slug}`} 
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center px-3 py-1.5 text-sm bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors"
+                                title="Siteyi Gör"
+                              >
+                                <ExternalLink className="w-4 h-4 mr-1.5" />
+                                Siteyi Gör
+                              </a>
+                            )}
+                            <Link 
+                              href={`/articles/${article.id}`} 
+                              className="inline-flex items-center px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors"
+                            >
+                              <Edit className="w-4 h-4 mr-1.5" />
+                              Düzenle
+                            </Link>
+                          </div>
                         </td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
+              </div>
             </div>
 
             {/* Sayfalama */}

@@ -89,3 +89,433 @@ body {
   margin: 1em 0;
   font-style: italic;
 }
+
+/* TipTap Editor Prose Styles */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror h1 {
+  font-size: 2.25em;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+  color: #111827;
+}
+
+.ProseMirror h2 {
+  font-size: 1.875em;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 0.75em;
+  margin-bottom: 0.35em;
+  color: #111827;
+}
+
+.ProseMirror h3 {
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 0.7em;
+  margin-bottom: 0.3em;
+  color: #111827;
+}
+
+.ProseMirror p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  line-height: 1.75;
+  color: #374151;
+}
+
+.ProseMirror strong,
+.ProseMirror b {
+  font-weight: 600;
+  color: #111827;
+}
+
+.ProseMirror em,
+.ProseMirror i {
+  font-style: italic;
+}
+
+.ProseMirror u {
+  text-decoration: underline;
+}
+
+.ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ProseMirror a:hover {
+  color: #1d4ed8;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.75em;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.ProseMirror li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  line-height: 1.75;
+  color: #374151;
+}
+
+.ProseMirror li p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.ProseMirror code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.ProseMirror pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow-x: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.ProseMirror pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 0.875em;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: block;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+/* Placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+}
+
+/* YouTube embeds */
+.ProseMirror iframe {
+  max-width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+}
+
+/* Text alignment */
+.ProseMirror [style*="text-align: left"] {
+  text-align: left;
+}
+
+.ProseMirror [style*="text-align: center"] {
+  text-align: center;
+}
+
+.ProseMirror [style*="text-align: right"] {
+  text-align: right;
+}
+
+.ProseMirror [style*="text-align: justify"] {
+  text-align: justify;
+}
+
+/* Editor.js Block Editor Styles */
+.codex-editor {
+  position: relative;
+}
+
+.codex-editor__redactor {
+  padding-bottom: 100px;
+}
+
+.ce-block__content,
+.ce-toolbar__content {
+  max-width: 100%;
+}
+
+.ce-block {
+  padding: 0.5em 0;
+}
+
+.ce-toolbar__plus {
+  color: #1d4ed8;
+}
+
+.ce-toolbar__plus:hover {
+  background-color: #eff6ff;
+}
+
+.ce-inline-toolbar {
+  background-color: #1f2937 !important;
+  border-radius: 8px !important;
+}
+
+.ce-inline-tool {
+  color: white !important;
+}
+
+.ce-inline-tool:hover {
+  background-color: #374151 !important;
+}
+
+/* Block styles */
+.ce-header {
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0.8em 0 0.4em;
+}
+
+h1.ce-header {
+  font-size: 2.25em;
+  color: #111827;
+}
+
+h2.ce-header {
+  font-size: 1.875em;
+  color: #111827;
+}
+
+h3.ce-header {
+  font-size: 1.5em;
+  color: #1f2937;
+}
+
+.ce-paragraph {
+  line-height: 1.75;
+  color: #374151;
+  margin: 0.75em 0;
+}
+
+.cdx-list {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.cdx-list__item {
+  line-height: 1.75;
+  padding: 0.25em 0;
+}
+
+.cdx-quote {
+  border-left: 4px solid #3b82f6;
+  padding-left: 1.5em;
+  margin: 1.5em 0;
+}
+
+.cdx-quote__text {
+  font-size: 1.25em;
+  font-style: italic;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.cdx-quote__caption {
+  margin-top: 0.5em;
+  font-size: 0.875em;
+  color: #6b7280;
+}
+
+.image-tool__image {
+  border-radius: 8px;
+  max-width: 100%;
+  margin: 1em 0;
+}
+
+.image-tool__caption {
+  text-align: center;
+  font-size: 0.875em;
+  color: #6b7280;
+  margin-top: 0.5em;
+}
+
+.cdx-block {
+  padding: 0.5em 0;
+}
+
+.tc-wrap {
+  --color-border: #e5e7eb;
+  --color-background: #f9fafb;
+  margin: 1em 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tc-table {
+  width: 100%;
+}
+
+.tc-row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tc-cell {
+  border-right: 1px solid var(--color-border);
+  padding: 0.75em 1em;
+  min-width: 100px;
+}
+
+.embed-tool {
+  margin: 1.5em 0;
+}
+
+.embed-tool__content {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Delimiter */
+.ce-delimiter {
+  line-height: 1.6em;
+  width: 100%;
+  text-align: center;
+  margin: 2em 0;
+}
+
+.ce-delimiter:before {
+  display: inline-block;
+  content: "***";
+  font-size: 30px;
+  line-height: 65px;
+  height: 30px;
+  letter-spacing: 0.2em;
+  color: #d1d5db;
+}
+
+/* FrontendEditor Styles */
+.frontend-editor {
+  font-family: var(--font-nunito), system-ui, -apple-system, sans-serif;
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+.frontend-editor h1 {
+  font-family: var(--font-lora);
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #111827;
+}
+
+.frontend-editor h2 {
+  font-family: var(--font-lora);
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+  margin-top: 1.25rem;
+  color: #111827;
+}
+
+.frontend-editor h3 {
+  font-family: var(--font-lora);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  color: #111827;
+}
+
+.frontend-editor p {
+  margin-bottom: 1rem;
+  color: #374151;
+  line-height: 1.75;
+}
+
+.frontend-editor blockquote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #4b5563;
+  margin: 1rem 0;
+}
+
+.frontend-editor ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.frontend-editor li {
+  margin-bottom: 0.25rem;
+  color: #374151;
+  line-height: 1.75;
+}
+
+.frontend-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.frontend-editor iframe {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.frontend-editor strong, .frontend-editor b {
+  font-weight: 600;
+}
+
+.frontend-editor em, .frontend-editor i {
+  font-style: italic;
+}
+
+.frontend-editor u {
+  text-decoration: underline;
+}

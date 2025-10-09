@@ -29,10 +29,7 @@ export async function GET(request: NextRequest) {
     if (search) {
       whereClauses.push(`(
         a.title ILIKE $${paramIndex} OR 
-        a.content ILIKE $${paramIndex} OR 
-        a.summary ILIKE $${paramIndex} OR
-        au.full_name ILIKE $${paramIndex} OR
-        au.username ILIKE $${paramIndex}
+        a.summary ILIKE $${paramIndex}
       )`);
       params.push(`%${search}%`);
       paramIndex++;

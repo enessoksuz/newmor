@@ -7,6 +7,7 @@ import { Color } from '@tiptap/extension-color';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import { Link } from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
 import { 
   Bold, 
   Italic, 
@@ -20,9 +21,12 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
-  Link as LinkIcon
+  Link as LinkIcon,
+  ImagePlus,
+  Trash2,
+  Edit2
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 interface RichTextEditorProps {
   content: string;
@@ -34,6 +38,9 @@ interface RichTextEditorProps {
 export default function RichTextEditor({ content, onChange, placeholder, className = '' }: RichTextEditorProps) {
   const [linkUrl, setLinkUrl] = useState('');
   const [showLinkDialog, setShowLinkDialog] = useState(false);
+  const [showImageDialog, setShowImageDialog] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageAlt, setImageAlt] = useState('');
 
   const editor = useEditor({
     extensions: [
@@ -48,6 +55,13 @@ export default function RichTextEditor({ content, onChange, placeholder, classNa
         openOnClick: false,
         HTMLAttributes: {
           class: 'text-blue-600 underline hover:text-blue-800',
+        },
+      }),
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: {
+          class: 'rounded-lg max-w-full h-auto cursor-pointer',
         },
       }),
     ],
@@ -76,6 +90,36 @@ export default function RichTextEditor({ content, onChange, placeholder, classNa
       editor.chain().focus().unsetLink().run();
     }
   };
+
+  const addImage = useCallback(() => {
+    if (imageUrl && editor) {
+      editor.chain().focus().setImage({ 
+        src: imageUrl,
+        alt: imageAlt || 'Görsel'
+      }).run();
+      setImageUrl('');
+      setImageAlt('');
+      setShowImageDialog(false);
+    }
+  }, [editor, imageUrl, imageAlt]);
+
+  const deleteImage = useCallback(() => {
+    if (editor) {
+      editor.chain().focus().deleteSelection().run();
+    }
+  }, [editor]);
+
+  const updateImageUrl = useCallback(() => {
+    if (editor && imageUrl) {
+      editor.chain().focus().updateAttributes('image', {
+        src: imageUrl,
+        alt: imageAlt || 'Görsel'
+      }).run();
+      setImageUrl('');
+      setImageAlt('');
+      setShowImageDialog(false);
+    }
+  }, [editor, imageUrl, imageAlt]);
 
   if (!editor) {
     return null;
@@ -236,6 +280,39 @@ export default function RichTextEditor({ content, onChange, placeholder, classNa
 
         <div className="w-px h-6 bg-gray-300 mx-1" />
 
+        {/* Image */}
+        <MenuButton
+          onClick={() => setShowImageDialog(true)}
+          isActive={editor.isActive('image')}
+          title="Görsel Ekle"
+        >
+          <ImagePlus className="w-4 h-4" />
+        </MenuButton>
+        
+        {editor.isActive('image') && (
+          <>
+            <MenuButton
+              onClick={() => {
+                const attrs = editor.getAttributes('image');
+                setImageUrl(attrs.src || '');
+                setImageAlt(attrs.alt || '');
+                setShowImageDialog(true);
+              }}
+              title="Görseli Düzenle"
+            >
+              <Edit2 className="w-4 h-4" />
+            </MenuButton>
+            <MenuButton
+              onClick={deleteImage}
+              title="Görseli Sil"
+            >
+              <Trash2 className="w-4 h-4 text-red-600" />
+            </MenuButton>
+          </>
+        )}
+
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+
         {/* Undo/Redo */}
         <MenuButton
           onClick={() => editor.chain().focus().undo().run()}
@@ -281,6 +358,69 @@ export default function RichTextEditor({ content, onChange, placeholder, classNa
             >
               İptal
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Image Dialog */}
+      {showImageDialog && (
+        <div className="absolute z-10 bg-white border border-gray-300 rounded-lg shadow-lg p-4 mt-1 w-96">
+          <h3 className="text-sm font-semibold mb-3">
+            {editor.isActive('image') ? 'Görseli Düzenle' : 'Görsel Ekle'}
+          </h3>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs text-gray-600 mb-1">Görsel URL</label>
+              <input
+                type="url"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                placeholder="/uploads/image.jpg veya https://..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                autoFocus
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-600 mb-1">Alt Text (SEO)</label>
+              <input
+                type="text"
+                value={imageAlt}
+                onChange={(e) => setImageAlt(e.target.value)}
+                placeholder="Görsel açıklaması..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+            {imageUrl && (
+              <div className="mt-2">
+                <img 
+                  src={imageUrl} 
+                  alt="Önizleme" 
+                  className="max-w-full h-auto rounded border border-gray-200"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+            <div className="flex justify-end space-x-2 pt-2">
+              <button
+                onClick={() => {
+                  setShowImageDialog(false);
+                  setImageUrl('');
+                  setImageAlt('');
+                }}
+                className="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                İptal
+              </button>
+              <button
+                onClick={editor.isActive('image') ? updateImageUrl : addImage}
+                disabled={!imageUrl}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                {editor.isActive('image') ? 'Güncelle' : 'Ekle'}
+              </button>
+            </div>
           </div>
         </div>
       )}
