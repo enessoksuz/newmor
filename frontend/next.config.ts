@@ -32,6 +32,26 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+
+  // Compression
+  compress: true,
+
+  // PoweredBy header'ı kaldır (güvenlik)
+  poweredByHeader: false,
+
+  // Trailing slash yok
+  trailingSlash: false,
+
+  // Production için optimizasyonlar
+  swcMinify: true,
+  
+  // Experimental features
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'date-fns'],
   },
 };
 

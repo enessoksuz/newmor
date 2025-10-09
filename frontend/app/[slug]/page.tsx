@@ -351,6 +351,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: article.meta_title || article.title,
     description: article.meta_description || article.summary,
     keywords: article.meta_keywords,
+    alternates: {
+      canonical: `https://morfikirler.com/${article.slug}`,
+    },
     openGraph: {
       title: article.meta_title || article.title,
       description: article.meta_description || article.summary,
@@ -359,13 +362,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       publishedTime: article.published_at,
       modifiedTime: article.updated_at,
       authors: article.authors?.map(a => a.name) || [],
+      url: `https://morfikirler.com/${article.slug}`,
+      siteName: 'Mor Fikirler',
     },
     twitter: {
       card: 'summary_large_image',
       title: article.meta_title || article.title,
       description: article.meta_description || article.summary,
       images: article.featured_image ? [article.featured_image] : [],
-    }
+      site: '@morfikirler',
+      creator: '@morfikirler',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   };
 }
 
@@ -844,8 +858,74 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const primaryCategory = article.categories?.find(c => c.is_primary) || article.categories?.[0];
   const headings = parseHeadings(article.content);
 
+  // Schema.org Article Structured Data
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.summary || article.meta_description,
+    image: article.featured_image ? [article.featured_image] : [],
+    datePublished: article.published_at,
+    dateModified: article.updated_at || article.published_at,
+    author: article.authors?.map(author => ({
+      '@type': 'Person',
+      name: author.name,
+      url: `https://morfikirler.com/yazar/${author.username}`,
+    })) || [],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Mor Fikirler',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://morfikirler.com/logo.svg',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://morfikirler.com/${article.slug}`,
+    },
+    articleSection: primaryCategory?.name,
+    keywords: article.meta_keywords,
+  };
+
+  // BreadcrumbList Schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Anasayfa',
+        item: 'https://morfikirler.com',
+      },
+      ...(primaryCategory ? [{
+        '@type': 'ListItem',
+        position: 2,
+        name: primaryCategory.name,
+        item: `https://morfikirler.com/kategori/${primaryCategory.slug}`,
+      }] : []),
+      {
+        '@type': 'ListItem',
+        position: primaryCategory ? 3 : 2,
+        name: article.title,
+        item: `https://morfikirler.com/${article.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      
       {/* ÜST KISIM - Header Section - Max 680px */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <div className="max-w-[680px] mx-auto">

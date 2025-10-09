@@ -1,14 +1,27 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export async function middleware(request: NextRequest) {
-  // Middleware'de sadece kontrol yap, loglama sayfada yapılacak
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // WordPress resimlerine 301 redirect
+  if (pathname.startsWith('/wp-content/uploads/')) {
+    const wpUrl = `https://morfikirler.com${pathname}`;
+    return NextResponse.redirect(wpUrl, 301);
+  }
+
+  // Yazar sayfalarına 301 redirect
+  if (pathname.startsWith('/yazar/')) {
+    const wpUrl = `https://morfikirler.com${pathname}`;
+    return NextResponse.redirect(wpUrl, 301);
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/wp-content/uploads/:path*',
+    '/yazar/:path*',
   ],
 };
-

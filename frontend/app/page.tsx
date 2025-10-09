@@ -8,6 +8,32 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Mor Fikirler - Girişimcilik, Yatırımcılık ve İş Fikirleri',
   description: 'Girişimcilik, yatırımcılık, iş fikirleri, e-ticaret, kişisel gelişim ve daha fazlası hakkında ilham verici içerikler. İş dünyasında başarıya ulaşmanız için en güncel bilgiler ve pratik öneriler.',
+  keywords: 'girişimcilik, iş fikirleri, yatırımcılık, e-ticaret, franchise, bayilik, kişisel gelişim, para kazanma',
+  alternates: {
+    canonical: 'https://morfikirler.com',
+  },
+  openGraph: {
+    title: 'Mor Fikirler - Girişimcilik ve İş Fikirleri',
+    description: 'Girişimcilik, yatırımcılık, iş fikirleri ve daha fazlası.',
+    url: 'https://morfikirler.com',
+    siteName: 'Mor Fikirler',
+    type: 'website',
+    locale: 'tr_TR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Mor Fikirler - Girişimcilik ve İş Fikirleri',
+    description: 'Girişimcilik, yatırımcılık, iş fikirleri ve daha fazlası.',
+    site: '@morfikirler',
+    creator: '@morfikirler',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+    'max-video-preview': -1,
+  },
 };
 
 // HTML entity'leri decode eden fonksiyon
@@ -200,8 +226,55 @@ export default async function HomePage() {
     }))
   );
 
+  // Organization Schema
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Mor Fikirler',
+    alternateName: 'MorFikirler',
+    url: 'https://morfikirler.com',
+    logo: 'https://morfikirler.com/logo.svg',
+    description: 'Girişimcilik, yatırımcılık, iş fikirleri, e-ticaret, kişisel gelişim ve daha fazlası hakkında ilham verici içerikler.',
+    sameAs: [
+      'https://twitter.com/morfikirler',
+      'https://www.facebook.com/morfikirler',
+      'https://www.instagram.com/morfikirler',
+    ],
+  };
+
+  // WebSite Schema
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Mor Fikirler',
+    url: 'https://morfikirler.com',
+    description: 'Girişimcilik, yatırımcılık, iş fikirleri ve kişisel gelişim platformu',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Mor Fikirler',
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://morfikirler.com/arama?q={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Schema.org JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      
       {/* Hero Section */}
       {heroArticle && (
         <section className="bg-white border-b border-gray-200">

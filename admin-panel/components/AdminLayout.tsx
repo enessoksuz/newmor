@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import {
   LayoutDashboard,
@@ -15,8 +15,11 @@ import {
   Settings,
   FileStack,
   AlertCircle,
-  ImageOff
+  ImageOff,
+  LogOut,
+  User as UserIcon
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -33,9 +36,49 @@ const navigation = [
   { name: 'Medya', href: '/media', icon: ImageIcon },
 ];
 
+interface AdminUser {
+  id: string;
+  email: string;
+  full_name: string;
+  role: string;
+}
+
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState<AdminUser | null>(null);
+  const [loggingOut, setLoggingOut] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Kullanıcı bilgilerini çek
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          setUser(data.user);
+        }
+      })
+      .catch(err => console.error('Failed to fetch user:', err));
+  }, []);
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+
+      toast.success('Çıkış yapıldı');
+      router.push('/morpanel');
+      router.refresh();
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Çıkış yapılırken hata oluştu');
+    } finally {
+      setLoggingOut(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -122,10 +165,30 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             
             <div className="flex-1 lg:flex-none"></div>
 
+            {/* User Info & Logout */}
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-700">
-                Admin
-              </div>
+              {user && (
+                <>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center">
+                      <UserIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="hidden sm:block text-sm">
+                      <div className="font-medium text-gray-900">{user.full_name}</div>
+                      <div className="text-xs text-gray-500">{user.role}</div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleLogout}
+                    disabled={loggingOut}
+                    className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    <span className="hidden sm:inline">Çıkış</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </header>
