@@ -78,3 +78,5 @@ export function getTokenFromCookie(cookieHeader: string | null): string | null {
   return cookies['auth-token'] || null;
 }
 
+
+
