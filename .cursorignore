@@ -1,0 +1,40 @@
+# Migration artifacts
+*.json
+*.log
+*.py
+*.sql
+*.sh
+backup-*.sh
+export-*.sh
+restore-*.sh
+migrate_*.py
+update_*.py
+check_*.py
+fix_*.sql
+update_*.sql
+apply_*.py
+download_*.py
+analyze_*.py
+recover_*.py
+test_*.py
+fill_*.py
+create_*.py
+list_*.py
+setup_*.py
+
+# Documentation (keep README.md)
+MIGRATION_README.md
+DEPLOYMENT_REHBERI.md
+SSH_BAGLANTI_REHBERI.md
+
+# Config files
+.env.production
+ecosystem.config.js
+nginx-config.conf
+
+# Scripts folder
+scripts/
+
+# Build artifacts
+.next/
+node_modules/
